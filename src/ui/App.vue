@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { onUnmounted } from "vue";
 import useAppStore from "./store";
-import Home from "./components/Home.vue";
+import ConnectionForm from "./components/ConnectionForm.vue";
+import UserList from "./components/UserList.vue";
+import socket from "./socket";
 
 const store = useAppStore();
+
+onUnmounted(() => {
+  console.debug("App unmounted");
+  socket.disconnect();
+});
 </script>
 
 <template>
@@ -10,27 +18,28 @@ const store = useAppStore();
     <h1>AirSim</h1>
 
     <div class="flex items-center gap-2">
-      <div v-if="store.name">{{ store.name }}</div>
-      <div v-if="store.role">({{ store.role }})</div>
+      <template v-if="store.currentUser.connected">
+        <div>{{ store.currentUser.name }}</div>
+        <div>({{ store.currentUser.role }})</div>
+      </template>
+
       <div
-        v-if="store.connected"
+        v-if="store.currentUser.connected"
         title="connected (click to disconnect)"
         class="cursor-pointer"
         @click="store.disconnect"
-      >🟢
+      >
+        🟢
       </div>
-      <div
-        v-else
-        title="not connected"
-      >🔴</div>
+
+      <div v-else title="not connected">🔴</div>
     </div>
   </header>
 
   <main>
-    <Home />
+    <UserList />
+    <ConnectionForm v-if="!store.currentUser.connected" />
   </main>
 
-  <footer>
-    &copy; 2023 AirSim
-  </footer>
+  <footer>&copy; 2023 AirSim</footer>
 </template>

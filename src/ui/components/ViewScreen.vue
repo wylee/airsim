@@ -1,3 +1,3 @@
 <script setup lang="ts"></script>
 
-<template>Pilot Form</template>
+<template>View Screen</template>
