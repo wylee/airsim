@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>AirSim</title>
+
+        <% if (env === "production") { %>
+            <link rel="stylesheet" href="<%= manifest['src/ui/main.css'].file; %>" />
+        <% } %>
+    </head>
+
+    <body>
+        <noscript>
+            This site requires JavaScript to be enabled in your browser.
+        </noscript>
+
+        <div id="app">
+            Loading...
+        </div>
+
+        <% if (env === 'production') { %>
+            <script type="module" src="<%= manifest['src/ui/main.ts'].file %>"></script>
+        <% } else { %>
+            <script type="module" src="http://localhost:5173/src/ui/main.ts"></script>
+        <% } %>
+    </body>
+</html>

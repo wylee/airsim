@@ -1,0 +1,36 @@
+{
+  "name": "airsim",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AirSim",
+  "type": "module",
+  "main": "src/api/index.js",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.0.1",
+    "cssnano": "^6.0.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "pinia": "^2.0.34",
+    "postcss": "^8.4.21",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1",
+    "tailwindcss": "^3.3.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.2.1",
+    "vue": "^3.2.47",
+    "vue-tsc": "^1.2.0"
+  },
+  "scripts": {
+    "dev": "concurrently 'npm:dev:api' 'npm:dev:ui'",
+    "dev:api": "nodemon src/api/index.js",
+    "dev:ui": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "start": "NODE_ENV=production node src/api/index.js"
+  }
+}
