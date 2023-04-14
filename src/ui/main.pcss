@@ -6,31 +6,35 @@
   @apply flex flex-col m-0 p-0 h-auto min-h-screen text-gray-900;
 }
 
-a, a:link {
-  @apply text-sky-600;
-}
-a:visited {
-  @apply text-sky-900;
-}
-a:hover {
-  @apply text-sky-500 underline;
-}
-a:active {
-  @apply text-orange-500;
+a {
+  &, &:link {
+    @apply text-sky-600;
+  }
+  &:visited {
+    @apply text-sky-900;
+  }
+  &:hover {
+    @apply text-sky-500 underline;
+  }
+  &:active {
+    @apply text-orange-500;
+  }
 }
 
 [type="button"], [type="reset"], [type="submit"], button {
-  @apply p-2 bg-gray-100 text-gray-900 border border-gray-800 rounded shadow;
-  min-width: 2.5rem;
-}
-[type="button"]:hover, [type="reset"]:hover, [type="submit"]:hover, button:hover {
-  @apply bg-gray-200;
-}
-[type="button"]:active, [type="reset"]:active, [type="submit"]:active, button:active {
-  @apply bg-gray-800 text-gray-100;
-}
-[type="button"]:disabled, [type="reset"]:disabled, [type="submit"]:disabled, button:disabled {
-  @apply bg-gray-50 text-gray-400 border-gray-100;
+  @apply p-2 bg-gray-200 text-gray-900 rounded shadow;
+
+  &:hover {
+    @apply bg-gray-300;
+  }
+
+  &:active {
+    @apply bg-gray-600 text-gray-100;
+  }
+
+  &:disabled {
+    @apply bg-gray-50 text-gray-400 border-gray-100;
+  }
 }
 
 h2 {
@@ -80,4 +84,14 @@ fieldset {
 
 input[type=text], input[type=email], select, textarea {
   @apply border border-gray-800 rounded shadow;
+}
+
+.error {
+  @apply text-red-900 font-bold;
+  & button {
+    @apply bg-red-50 text-red-800;
+    &:hover {
+      @apply bg-red-100;
+    }
+  }
 }

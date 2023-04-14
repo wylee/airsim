@@ -33,7 +33,7 @@ const connect = () => {
     <fieldset>
       <label for="role">Role</label>
       <select id="role" v-model="role" required>
-        <option value="" selected="selected">-- Select a Role --</option>
+        <option value="">-- Select a Role --</option>
         <option value="lead">Lead</option>
         <option value="wing">Wing</option>
         <option value="viewer">Viewer</option>

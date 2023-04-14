@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 
 import App from "./App.vue";
-import "./main.css";
+import "./main.pcss";
 
 const pinia = createPinia();
 const app = createApp(App);

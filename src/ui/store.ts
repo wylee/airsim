@@ -32,6 +32,8 @@ export default defineStore("app", () => {
     return connectedUsers.value.sort((a, b) => a.name.localeCompare(b.name));
   });
 
+  const error = ref<Error>();
+
   // Set current/session user.
   const setCurrentUser = (userVal: User): void => {
     currentUser.value = userVal;
@@ -78,6 +80,14 @@ export default defineStore("app", () => {
     }
   };
 
+  const setError = (err: Error): void => {
+    error.value = err;
+  };
+
+  const clearError = (): void => {
+    error.value = undefined;
+  };
+
   return {
     currentUser,
     setCurrentUser,
@@ -91,5 +101,9 @@ export default defineStore("app", () => {
     setConnectedUsers,
     addConnectedUser,
     removeConnectedUser,
+
+    error,
+    setError,
+    clearError,
   };
 });

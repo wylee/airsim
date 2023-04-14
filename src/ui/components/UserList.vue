@@ -3,7 +3,7 @@ import useAppStore from "../store";
 
 const store = useAppStore();
 
-const roleIcon = (role) => {
+const roleIcon = (role: string) => {
   switch (role) {
     case "lead":
       return "✈️";

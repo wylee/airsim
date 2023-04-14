@@ -5,6 +5,10 @@ import useAppStore from "./store";
 
 const socket = io(WEBSOCKET_URL, { autoConnect: false });
 
+interface Err {
+  type: string;
+}
+
 // When the current user successfully connects to the server:
 //
 // 1. Update the current user's connection state.
@@ -16,10 +20,8 @@ socket.on("connect", () => {
 });
 
 socket.on("connect_error", (err) => {
-  console.error(`Could not connect to server: ${err.message}`);
-  if (err.message === "cannot lead") {
-    console.log("cannot lead");
-  }
+  const store = useAppStore();
+  store.setError(err);
 });
 
 socket.on("disconnect", () => {

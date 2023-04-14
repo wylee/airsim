@@ -1,22 +1,32 @@
 import { Server } from "socket.io";
 
+const errors = {
+  "duplicate-lead": {
+    message:
+      "Cannot connect as lead because someone else has already connected as lead",
+  },
+};
+
+const makeError = (cause) => {
+  return new Error(errors[cause].message, { cause });
+};
+
 export const initSocket = (server) => {
   const io = new Server(server);
 
   // Map of user ID => user object.
   const users = {};
 
-  // Get list of user objects.
+  // Return list of user objects.
   const getUserList = () => Object.values(users);
 
   let hasLead = false;
 
   io.use((socket, next) => {
-    console.log("middleware");
     const { role } = socket.handshake.auth;
     const isLead = role === "lead";
     if (isLead && hasLead) {
-      return next(new Error("cannot lead"));
+      return next(makeError("duplicate-lead"));
     }
     next();
   });
