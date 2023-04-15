@@ -44,6 +44,16 @@ socket.on("user:list", (users) => {
   store.setConnectedUsers(users);
 });
 
+socket.on("broadcast:message", ({ userId, message }) => {
+  const store = useAppStore();
+  const user = store.connectedUsers.find((u) => u.id === userId);
+  if (user !== undefined) {
+    store.appendBroadcastMessage({ user, message });
+  } else {
+    console.error(`User not found for ID: ${userId}`);
+  }
+});
+
 if (IS_DEV) {
   socket.onAny((event, ...args) => {
     console.log("websocket event:", event, ...args);

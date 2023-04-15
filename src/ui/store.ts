@@ -14,6 +14,11 @@ interface User {
   connected: boolean;
 }
 
+interface BroadcastMessage {
+  user: User;
+  message: string;
+}
+
 const INITIAL_USER: User = {
   id: uuid(),
   name: "",
@@ -22,6 +27,8 @@ const INITIAL_USER: User = {
 };
 
 export default defineStore("app", () => {
+  // Users ------------------------------------------------------------
+
   // Current/session user.
   const currentUser = ref<User>(INITIAL_USER);
 
@@ -31,8 +38,6 @@ export default defineStore("app", () => {
   const sortedUsers = computed(() => {
     return connectedUsers.value.sort((a, b) => a.name.localeCompare(b.name));
   });
-
-  const error = ref<Error>();
 
   // Set current/session user.
   const setCurrentUser = (userVal: User): void => {
@@ -80,12 +85,36 @@ export default defineStore("app", () => {
     }
   };
 
+  // Errors -----------------------------------------------------------
+
+  const error = ref<Error>();
+
   const setError = (err: Error): void => {
     error.value = err;
   };
 
   const clearError = (): void => {
     error.value = undefined;
+  };
+
+  // Broadcast --------------------------------------------------------
+
+  const broadcastMessages = ref<BroadcastMessage[]>([]);
+  const showBroadcastPanel = ref(true);
+
+  const toggleShowBroadcastPanel = (): void => {
+    showBroadcastPanel.value = !showBroadcastPanel.value;
+  };
+
+  const broadcastMessage = (message: string): void => {
+    socket.emit("broadcast:message", { userId: currentUser.value.id, message });
+    appendBroadcastMessage({ user: currentUser.value, message });
+  };
+
+  const appendBroadcastMessage = (message: BroadcastMessage): void => {
+    const messages = broadcastMessages.value.slice(0, 19);
+    messages.push(message);
+    broadcastMessages.value = messages;
   };
 
   return {
@@ -105,5 +134,11 @@ export default defineStore("app", () => {
     error,
     setError,
     clearError,
+
+    showBroadcastPanel,
+    toggleShowBroadcastPanel,
+    broadcastMessages,
+    broadcastMessage,
+    appendBroadcastMessage,
   };
 });

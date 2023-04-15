@@ -83,7 +83,17 @@ fieldset {
 }
 
 input[type=text], input[type=email], select, textarea {
-  @apply border border-gray-800 rounded shadow;
+  @apply text-gray-800 border border-gray-800 rounded shadow;
+}
+
+/* App -------------------------------------------------------------- */
+
+.panel {
+  @apply w-48 flex flex-col gap-4 p-4 bg-gray-700 text-gray-100;
+
+  &.right {
+    @apply ms-auto w-64;
+  }
 }
 
 .error {
@@ -94,4 +104,8 @@ input[type=text], input[type=email], select, textarea {
       @apply bg-red-100;
     }
   }
+}
+
+.help {
+  @apply text-sm text-gray-300;
 }

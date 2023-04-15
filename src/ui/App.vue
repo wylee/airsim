@@ -4,6 +4,7 @@ import useAppStore from "./store";
 import ConnectionForm from "./components/ConnectionForm.vue";
 import UserList from "./components/UserList.vue";
 import socket from "./socket";
+import BroadcastPanel from "./components/BroadcastPanel.vue";
 
 const store = useAppStore();
 
@@ -55,6 +56,7 @@ onUnmounted(() => {
   <main>
     <UserList />
     <ConnectionForm v-if="!store.currentUser.connected" />
+    <BroadcastPanel />
   </main>
 
   <footer>&copy; 2023 AirSim</footer>

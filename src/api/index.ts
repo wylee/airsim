@@ -2,8 +2,8 @@ import http from "http";
 
 import express from "express";
 
-import { initRoutes } from "./routes.js";
-import { initSocket } from "./socket.js";
+import { initRoutes } from "./routes";
+import { initSocket } from "./socket";
 
 const app = express();
 const port = process.env.PORT || 3000;

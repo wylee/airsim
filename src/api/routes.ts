@@ -6,7 +6,7 @@ import express from "express";
 const env = process.env.NODE_ENV || "development";
 const is_prod = env === "production";
 
-export const initRoutes = (app) => {
+export const initRoutes = (app: any) => {
   const router = express.Router();
 
   const assetsPath = path.join(path.resolve(), "src/ui/assets");
@@ -25,13 +25,13 @@ export const initRoutes = (app) => {
   router.get("/*", async (_req, res) => {
     const data = {
       env,
-      manifest: await parseManifest()
+      manifest: await parseManifest(),
     };
     res.render("index.html.ejs", data);
   });
 
   app.use(router);
-}
+};
 
 const parseManifest = async () => {
   if (is_prod) {
