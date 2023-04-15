@@ -8,6 +8,10 @@ const name = ref(store.currentUser?.name);
 const role = ref(store.currentUser?.role);
 const errorMessage = ref();
 
+const setRole = (newRole: string) => {
+  role.value = newRole;
+};
+
 const connect = () => {
   if (typeof name.value === "string" && typeof role.value === "string") {
     store.connect(name.value, role.value);

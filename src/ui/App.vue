@@ -34,6 +34,15 @@ onUnmounted(() => {
       </div>
 
       <div v-else title="not connected">🔴</div>
+
+      <div
+        v-if="store.currentUser.connected && !store.showBroadcastPanel"
+        title="Show broadcast panel"
+        class="cursor-pointer"
+        @click="store.toggleShowBroadcastPanel"
+      >
+        ↓
+      </div>
     </div>
   </header>
 
@@ -54,9 +63,9 @@ onUnmounted(() => {
   </div>
 
   <main>
-    <UserList />
+    <UserList v-if="store.currentUser.connected" />
     <ConnectionForm v-if="!store.currentUser.connected" />
-    <BroadcastPanel />
+    <BroadcastPanel v-if="store.currentUser.connected" />
   </main>
 
   <footer>&copy; 2023 AirSim</footer>

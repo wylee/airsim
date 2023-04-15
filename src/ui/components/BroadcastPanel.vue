@@ -20,10 +20,10 @@ const sendMessage = () => {
     <h2 class="flex items-center justify-between">
       <span>Broadcast</span>
       <span
-        class="cursor-pointer"
         title="Close panel"
+        class="cursor-pointer"
         @click="store.toggleShowBroadcastPanel"
-        >&rarr;</span
+        >→</span
       >
     </h2>
 
