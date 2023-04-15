@@ -40,32 +40,32 @@ export default defineStore("app", () => {
   });
 
   // Set current/session user.
-  const setCurrentUser = (userVal: User): void => {
+  const setCurrentUser = (userVal: User) => {
     currentUser.value = userVal;
   };
 
-  const setCurrentUserConnected = (): void => {
+  const setCurrentUserConnected = () => {
     currentUser.value = {
       ...currentUser.value,
       connected: true,
     };
   };
 
-  const setConnectedUsers = (users: User[]): void => {
+  const setConnectedUsers = (users: User[]) => {
     connectedUsers.value = users;
   };
 
-  const addConnectedUser = (user: User): void => {
+  const addConnectedUser = (user: User) => {
     connectedUsers.value = [...connectedUsers.value, user];
   };
 
-  const removeConnectedUser = (id: string): void => {
+  const removeConnectedUser = (id: string) => {
     connectedUsers.value = connectedUsers.value.filter((u) => u.id !== id);
   };
 
   // Connect current user to server. Note that we wait for the server to
   // respond before actually show the user as connected.
-  const connect = (name: string, role: Role): void => {
+  const connect = (name: string, role: Role) => {
     const id = uuid();
     currentUser.value = {
       id,
@@ -78,10 +78,13 @@ export default defineStore("app", () => {
   };
 
   // Disconnect current user from server.
-  const disconnect = (): void => {
+  const disconnect = () => {
     if (IS_DEV || confirm("Disconnect?")) {
-      currentUser.value = INITIAL_USER;
-      socket.disconnect();
+      broadcastMessage("<left>");
+      setTimeout(() => {
+        reset();
+        socket.disconnect();
+      }, 0);
     }
   };
 
@@ -89,11 +92,11 @@ export default defineStore("app", () => {
 
   const error = ref<Error>();
 
-  const setError = (err: Error): void => {
+  const setError = (err: Error) => {
     error.value = err;
   };
 
-  const clearError = (): void => {
+  const clearError = () => {
     error.value = undefined;
   };
 
@@ -102,19 +105,28 @@ export default defineStore("app", () => {
   const broadcastMessages = ref<BroadcastMessage[]>([]);
   const showBroadcastPanel = ref(true);
 
-  const toggleShowBroadcastPanel = (): void => {
+  const toggleShowBroadcastPanel = () => {
     showBroadcastPanel.value = !showBroadcastPanel.value;
   };
 
-  const broadcastMessage = (message: string): void => {
+  const broadcastMessage = (message: string) => {
     socket.emit("broadcast:message", { userId: currentUser.value.id, message });
     appendBroadcastMessage({ user: currentUser.value, message });
   };
 
-  const appendBroadcastMessage = (message: BroadcastMessage): void => {
+  const appendBroadcastMessage = (message: BroadcastMessage) => {
     const messages = broadcastMessages.value.slice(0, 19);
     messages.push(message);
     broadcastMessages.value = messages;
+  };
+
+  // Utilities --------------------------------------------------------
+
+  const reset = () => {
+    currentUser.value = INITIAL_USER;
+    connectedUsers.value = [];
+    broadcastMessages.value = [];
+    error.value = undefined;
   };
 
   return {
