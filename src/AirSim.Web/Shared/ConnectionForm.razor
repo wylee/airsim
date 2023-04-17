@@ -1,0 +1,49 @@
+<form class="d-flex flex-column m-2">
+
+    <fieldset class="mb-4">
+        <label for="name">Name</label>
+        <input
+            id="name"
+            name="Name"
+            type="text"
+            required
+            placeholder="Name"
+            class="form-control"
+        />
+    </fieldset>
+
+    <fieldset class="mb-4">
+        <label>Role</label>
+
+        <div class="d-flex justify-content-between p-2 bg-white border rounded">
+            @foreach (var role in roles)
+            {
+                <div class="form-check">
+                    <input
+                        id="role-@role"
+                        name="role"
+                        type="radio"
+                        required
+                        value="@role"
+                        class="form-check-input"
+                    />
+
+                    <label for="role-@role" class="form-check-label">
+                        @role
+                    </label>
+                </div>
+            }
+        </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary" disabled="@disabled">
+        Connect
+    </button>
+
+</form>
+
+@code {
+    private string[] roles = {"Lead", "Wing", "Viewer"};
+
+    private bool disabled = true;
+}
