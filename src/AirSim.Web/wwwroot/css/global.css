@@ -1,0 +1,10 @@
+:root {
+    --bs-body-bg: var(--bs-gray-100);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+}
