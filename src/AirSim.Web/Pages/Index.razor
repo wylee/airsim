@@ -3,7 +3,7 @@
 
 <PageTitle>AirSim</PageTitle>
 
-@if (!Store.CurrentUserConnected())
+@if (!Store.CurrentUser.Connected)
 {
     <ConnectionForm />
 }

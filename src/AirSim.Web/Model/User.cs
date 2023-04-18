@@ -2,10 +2,10 @@ namespace AirSim.Web.Model;
 
 public class User
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public Role Role { get; set; }
-    public bool Connected { get; set; }
+    public string Id { get; init; }
+    public string Name { get; init; }
+    public Role Role { get; init; }
+    public bool Connected { get; init; }
 
     /// <summary>
     /// Create an anonymous, unconnected user with no ID, name, or role.
@@ -26,14 +26,33 @@ public class User
         Connected = connected;
     }
 
-    public string RoleName()
+    public string RoleName
     {
-        return Role.ToString("f");
+        get
+        {
+            return Role.ToString("f");
+        }
+    }
+
+    public string RoleIcon
+    {
+        get
+        {
+            return Role switch
+            {
+                Role.None => "❗️",
+                Role.Lead => "✈️",
+                Role.Wing => "🛩️",
+                Role.Viewer => "👀",
+                // XXX: Why is the fallback necessary?
+                _ => "❓",
+            };
+        }
     }
 
     public override string ToString()
     {
         var indicator = Connected ? "*" : "";
-        return $"{Name} ({RoleName()}) {indicator}";
+        return $"{Name} ({RoleName}) {indicator}";
     }
 }

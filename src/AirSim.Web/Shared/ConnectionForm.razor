@@ -4,14 +4,19 @@
 
 <EditForm Model="connectionData" OnValidSubmit="ValidSubmit" class="d-flex flex-column m-2">
 
+    <DataAnnotationsValidator />
+
     <fieldset class="mb-4">
         <label for="name">Name</label>
+
         <InputText id="name"
                    type="text"
                    required
                    placeholder="Name"
                    class="form-control"
                    @bind-Value="connectionData.Name" />
+
+        <ValidationMessage For="@(() => connectionData.Name)" />
     </fieldset>
 
     <fieldset class="container-fluid mb-4">
@@ -32,6 +37,8 @@
 
             </InputRadioGroup>
         </div>
+
+        <ValidationMessage For="@(() => connectionData.Name)" />
     </fieldset>
 
     <div class="d-flex justify-content-center">

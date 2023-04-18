@@ -10,12 +10,12 @@
             </NavLink>
 
             <div class="d-flex align-items-center justify-content-end text-light">
-                @if (Store.CurrentUserConnected())
+                @if (Store.CurrentUser.Connected)
                 {
                     <div>
-                        @Store.CurrentUserName()
-                        (@Store.CurrentUserRole())
-                        <i class="bi-circle-fill text-success" @onclick="DisconnectUser" />
+                        @Store.CurrentUser.Name
+                        (@Store.CurrentUser.Role)
+                        <i class="bi-circle-fill cursor-pointer text-success" @onclick="DisconnectUser" />
                     </div>
                 }
                 else
@@ -27,8 +27,20 @@
     </nav>
 </header>
 
-<main class="flex-fill">
-    @Body
+<main class="flex-fill d-flex">
+
+    @if (Store.Connected && Store.HasConnectedUsers) {
+        <ConnectedUsersPanel />
+    }
+
+    <div class="flex-fill">
+        @Body
+    </div>
+
+    @if (Store.Connected) {
+        <BroadcastPanel />
+    }
+
 </main>
 
 <footer class="p-2 bg-dark text-light">
@@ -38,6 +50,5 @@
 @code {
     protected override void OnInitialized() => Store.OnChange += StateHasChanged;
     public void Dispose() => Store.OnChange -= StateHasChanged;
-
     private void DisconnectUser() => Store.DisconnectUser();
 }

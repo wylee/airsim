@@ -8,3 +8,17 @@ body {
     height: auto;
     min-height: 100vh;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    min-width: 12rem;
+    padding: 1rem;
+    background-color: var(--bs-gray-800);
+    color: var(--bs-light);
+}
