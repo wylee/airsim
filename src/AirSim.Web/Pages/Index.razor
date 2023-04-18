@@ -1,5 +1,14 @@
 ﻿@page "/"
+@inject Store Store
 
 <PageTitle>AirSim</PageTitle>
 
-<ConnectionForm />
+@if (!Store.CurrentUserConnected())
+{
+    <ConnectionForm />
+}
+
+@code {
+    protected override void OnInitialized() => Store.OnChange += StateHasChanged;
+    public void Dispose() => Store.OnChange -= StateHasChanged;
+}
