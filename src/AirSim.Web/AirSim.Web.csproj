@@ -8,4 +8,10 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
 
+  <ItemGroup>
+    <None Remove="Store\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Store\" />
+  </ItemGroup>
 </Project>
