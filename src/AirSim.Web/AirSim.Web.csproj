@@ -14,4 +14,7 @@
   <ItemGroup>
     <Folder Include="Store\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.5" />
+  </ItemGroup>
 </Project>

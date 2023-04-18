@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AirSim.Web.Model;
+﻿namespace AirSim.Web.Model;
 
 public class BroadcastMessage
 {
@@ -13,4 +11,3 @@ public class BroadcastMessage
         Message = message;
     }
 }
-
