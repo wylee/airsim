@@ -1,17 +1,28 @@
 ﻿@inherits LayoutComponentBase
+@implements IDisposable
+@inject Store Store
 
 <header>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-            <a href="/" class="navbar-brand">
+            <NavLink href="/" class="navbar-brand">
                 <h1 class="m-0 fs-4 fw-normal">AirSim</h1>
-            </a>
+            </NavLink>
 
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <NavLink href="/" class="nav-link">🏠</NavLink>
-                </li>
-            </ul>
+            <div class="d-flex align-items-center justify-content-end text-light">
+                @if (Store.CurrentUserConnected())
+                {
+                    <div>
+                        @Store.CurrentUserName()
+                        (@Store.CurrentUserRole())
+                        <i class="bi-circle-fill text-success" @onclick="DisconnectUser" />
+                    </div>
+                }
+                else
+                {
+                    <i class="bi-circle-fill text-danger" />
+                }
+            </div>
         </div>
     </nav>
 </header>
@@ -23,3 +34,10 @@
 <footer class="p-2 bg-dark text-light">
     &copy; 2023 AirSim
 </footer>
+
+@code {
+    protected override void OnInitialized() => Store.OnChange += StateHasChanged;
+    public void Dispose() => Store.OnChange -= StateHasChanged;
+
+    private void DisconnectUser() => Store.DisconnectUser();
+}

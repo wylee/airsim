@@ -1,11 +1,12 @@
+@implements IDisposable
 @inject ILogger<ConnectionForm> logger
+@inject Store Store
 
 <EditForm Model="connectionData" OnValidSubmit="ValidSubmit" class="d-flex flex-column m-2">
 
     <fieldset class="mb-4">
         <label for="name">Name</label>
         <InputText id="name"
-                   name="Name"
                    type="text"
                    required
                    placeholder="Name"
@@ -19,7 +20,7 @@
         <div class="row py-2 bg-white border rounded">
             <InputRadioGroup @bind-Value="connectionData.Role">
 
-                @foreach (var role in roles)
+                @foreach (var role in GetRoles())
                 {
                     <div class="col">
                         <InputRadio id="@role" required Value="@role" />
@@ -42,12 +43,23 @@
 </EditForm>
 
 @code {
+    protected override void OnInitialized() => Store.OnChange += StateHasChanged;
+    public void Dispose() => Store.OnChange -= StateHasChanged;
+
     private ConnectionData connectionData = new ConnectionData();
 
-    private string[] roles = { "Lead", "Wing", "Viewer" };
-
-    private void ValidSubmit()
+    private List<string> GetRoles()
     {
-        logger.LogWarning($"Valid submit: {connectionData}");
+        var roles = new List<string>();
+        foreach (Role role in Enum.GetValues(typeof(Role)))
+        {
+            if (role != Role.None)
+            {
+                roles.Add(role.ToString("f"));
+            }
+        }
+        return roles;
     }
+
+    private void ValidSubmit() => Store.ConnectUser(connectionData.Name!, connectionData.Role);
 }
