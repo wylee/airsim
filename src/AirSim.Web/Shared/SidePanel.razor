@@ -1,0 +1,105 @@
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IDisposable
+@inject Store Store
+
+<div
+    class="position-absolute bottom-0 end-0"
+    style="z-index: 9999;"
+>
+    <button
+        type="button"
+        class="btn btn-dark"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#side-panel"
+        aria-controls="side-panel"
+        title="@toggleButtonTitle"
+        @onclick="toggleOpen"
+    >@toggleButtonText</button>
+</div>
+
+<div
+    id="side-panel"
+    class="offcanvas offcanvas-end"
+    data-bs-backdrop="false"
+    data-bs-scroll="true" 
+    tabindex="-1"
+>
+    <div class="offcanvas-body d-flex flex-column">
+        @if (!Store.Connected)
+        {
+            <p>Nothing to see here (you need to connect first).</p>
+        }
+
+        @if (Store.Connected && Store.HasConnectedUsers)
+        {
+            <div class="flex-fill mb-2">
+                <h3>Users</h3>
+                <ul class="list-unstyled">
+                    @foreach (var user in Store.ConnectedUsers)
+                    {
+                        <li class="d-flex flex-row mb-2">
+                            <div class="me-2" title="@user.RoleName">@user.RoleIcon</div>
+                            <div class="flex-fill">@user.Name</div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        @if (Store.Connected)
+        {
+            <div class="flex-fill d-flex flex-column">
+                <h3>Broadcast</h3>
+
+                <div class="flex-fill">
+                    @if (Store.HasBroadcastMessages)
+                    {
+                        <ul></ul>
+                    } 
+                    else
+                    {
+                        <div class="text-danger">No messages</div>
+                    }
+                </div>
+
+                <form>
+                    <div class="form-floating text-dark">
+                        <input
+                            id="broadcast-message"
+                            type="text"
+                            placeholder="Type message and hit enter"
+                            class="form-control"
+                        />
+                        <label for="broadcast-message">Broadcast Message</label>
+                    </div>
+                </form>
+            </div>
+        }
+
+        <div class="p-3" />
+
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized() => Store.OnChange += StateHasChanged;
+    public void Dispose() => Store.OnChange -= StateHasChanged;
+
+    private bool open = false;
+
+    private void toggleOpen() => open = !open;
+
+    private string toggleButtonTitle
+    {
+        get {
+            return open ? "Close Sidebar" : "Open Sidebar";
+        }
+    }
+
+    private string toggleButtonText
+    {
+        get {
+            return open ? "→" : "←";
+        }
+    }
+}

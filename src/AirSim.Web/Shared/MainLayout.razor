@@ -27,21 +27,11 @@
     </nav>
 </header>
 
-<main class="flex-fill d-flex">
-
-    @if (Store.Connected && Store.HasConnectedUsers) {
-        <ConnectedUsersPanel />
-    }
-
-    <div class="flex-fill">
-        @Body
-    </div>
-
-    @if (Store.Connected) {
-        <BroadcastPanel />
-    }
-
+<main class="flex-fill">
+    @Body
 </main>
+
+<SidePanel />
 
 <footer class="p-2 bg-dark text-light">
     &copy; 2023 AirSim
